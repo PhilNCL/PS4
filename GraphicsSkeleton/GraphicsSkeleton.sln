@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsSkeleton", "GraphicsSkeleton.vcxproj", "{F344A04F-9537-4B94-93DF-27FE9A492998}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ORBIS = Debug|ORBIS
+		Release|ORBIS = Release|ORBIS
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F344A04F-9537-4B94-93DF-27FE9A492998}.Debug|ORBIS.ActiveCfg = Debug|ORBIS
+		{F344A04F-9537-4B94-93DF-27FE9A492998}.Debug|ORBIS.Build.0 = Debug|ORBIS
+		{F344A04F-9537-4B94-93DF-27FE9A492998}.Release|ORBIS.ActiveCfg = Release|ORBIS
+		{F344A04F-9537-4B94-93DF-27FE9A492998}.Release|ORBIS.Build.0 = Release|ORBIS
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

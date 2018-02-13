@@ -1,0 +1,15 @@
+﻿Build started 05/02/2016 14:46:05.
+     1>Project "D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\GraphicsSkeleton.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         PS4RendererBase.cpp
+         orbis-clang.exe -o ORBIS_Debug\PS4RendererBase.o -c -MD -MV -fdiagnostics-format=msvc -I"C:\Program Files (x86)\SCE\ORBIS SDKs\3.000\target\samples\sample_code\\" -I"C:\Program Files (x86)\SCE\ORBIS SDKs\3.000\host_tools\lib\clang\include" -I"C:\Program Files (x86)\SCE\ORBIS SDKs\3.000\target\include" -I"C:\Program Files (x86)\SCE\ORBIS SDKs\3.000\target\include_common" -D_DEBUG -g -Wall -fno-caret-diagnostics -O0 "D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\PS4RendererBase.cpp"
+     1>D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\PS4RendererBase.cpp(19,24): warning : implicit conversion of NULL constant to 'int' [-Wnull-conversion]
+     1>D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\PS4RendererBase.cpp(264,9): warning : unused variable 'a' [-Wunused-variable]
+       Link:
+         C:\Program Files (x86)\SCE\ORBIS SDKs\3.000\host_tools\bin\orbis-ld.exe -o "D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\ORBIS_Debug\GraphicsSkeleton.elf" -L"C:\Program Files (x86)\SCE\ORBIS SDKs\3.000\target\samples\sample_code\graphics\api_gnm\toolkit" --enc --start-group ORBIS_Debug\ExampleRenderer.o ORBIS_Debug\InputBase.o ORBIS_Debug\main.o ORBIS_Debug\Mesh.o ORBIS_Debug\PS4AudioSystem.o ORBIS_Debug\PS4ComputeShader.o ORBIS_Debug\PS4Frame.o ORBIS_Debug\PS4Input.o ORBIS_Debug\PS4MemoryAware.o ORBIS_Debug\PS4Mesh.o ORBIS_Debug\PS4RendererBase.o ORBIS_Debug\PS4Shader.o ORBIS_Debug\PS4SoundEmitter.o ORBIS_Debug\PS4Texture.o ORBIS_Debug\RendererBase.o ORBIS_Debug\Shader.o ORBIS_Debug\TextureBase.o libSceDbgVideoOut_stub_weak.a libSceVideoOut_stub_weak.a toolkit_debug.a libSceGnm.a libSceGnm_debug.a libSceGnmx.a libSceGnmx_debug.a libSceGpuAddress.a libSceGnmDriver_stub_weak.a libSceShaderBinary.a libSceGnf.a libSceGnf_debug.a libScePad_stub_weak.a libSceUserService_stub_weak.a libSceSysmodule_stub_weak.a libSceNgs2_stub_weak.a libSceAudioOut_stub_weak.a "-lSceDbgEnC" --end-group
+         GraphicsSkeleton.vcxproj -> D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\ORBIS_Debug\GraphicsSkeleton.elf
+     1>Done Building Project "D:\PhD SVN\Uni Stuff\PS4 Code\GraphicsSkeleton\GraphicsSkeleton.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.72
