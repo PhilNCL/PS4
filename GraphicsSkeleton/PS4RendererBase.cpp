@@ -321,7 +321,7 @@ void	PS4RendererBase::ClearBuffer(bool colour, bool depth, bool stencil) {
 
 void PS4RendererBase::DrawRenderObject(RenderObject* o) {
 	Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
-	*transformMat = o->GetLocalTransform();
+	*transformMat = nclToPS4( PS4ToNcl(o->GetLocalTransform()));
 
 #ifdef SHADER_OLD
 	Gnm::Buffer constantBuffer;
