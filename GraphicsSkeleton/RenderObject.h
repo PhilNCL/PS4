@@ -14,19 +14,19 @@ public:
 
 	~RenderObject();
 
-	RenderObject(Mesh* m, PS4ShaderNew* shader, TextureBase* tex);
+	RenderObject(Mesh* m, ShaderBase* shader, TextureBase* tex);
 
 	const Matrix4& GetLocalTransform() const;
 	void	SetLocalTransform(const Matrix4& mat);
 
-	PS4ShaderNew* GetShader() const {
+	ShaderBase* GetShader() const {
 		return shader;
 	}
 
 
 protected:
 	Mesh*		mesh;
-	PS4ShaderNew* shader;
+	ShaderBase* shader;
 
 	static const int TEXTURE_COUNT = 4;
 	TextureBase* textures[TEXTURE_COUNT];

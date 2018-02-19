@@ -27,10 +27,21 @@ PS4Mesh* PS4Mesh::GenerateQuad() {
 	mesh->tangents  = new Vector3[mesh->numVertices];
 	mesh->indices   = new int[mesh->numIndices];
 
-	mesh->vertices[0] = Vector3(-1.0f, -1.0f, 0.0f);
-	mesh->vertices[1] = Vector3(-1.0f,  1.0f, 0.0f);
-	mesh->vertices[2] = Vector3( 1.0f, -1.0f, 0.0f);
-	mesh->vertices[3] = Vector3( 1.0f,  1.0f, 0.0f);
+	//mesh->vertices[0] = Vector3(-1.0f, -1.0f, 0.0f);
+	//mesh->vertices[1] = Vector3(-1.0f,  1.0f, 0.0f);
+	//mesh->vertices[2] = Vector3( 1.0f, -1.0f, 0.0f);
+	//mesh->vertices[3] = Vector3( 1.0f,  1.0f, 0.0f);
+
+	mesh->texCoords[0] = Vector2(0.0f, 1.0f);
+	mesh->texCoords[1] = Vector2(0.0f, 0.0f);
+	mesh->texCoords[2] = Vector2(1.0f, 1.0f);
+	mesh->texCoords[3] = Vector2(1.0f, 0.0f);
+
+	mesh->vertices[0] = Vector3(-0.5f, -0.5f, 0.0f);
+	mesh->vertices[1] = Vector3(+0.5f, -0.5f, 0.0f);
+	mesh->vertices[2] = Vector3(-0.5f, +0.5f, 0.0f);
+	mesh->vertices[3] = Vector3(+0.5f, +0.5f, 0.0f);
+
 
 	for (int i = 0; i < mesh->numVertices; ++i) {
 		mesh->normals[i]  = Vector3(0, 0, 1);

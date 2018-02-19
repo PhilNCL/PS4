@@ -1,11 +1,19 @@
 #include "PS4RendererBase.h"
 #include <video_out.h>	//Video System
+
+#ifdef SHADER_OLD
 #include "PS4Shader.h"
-#include "PS4Mesh.h"
+#else
+#include "PS4ShaderNew.h"
+#endif
+
+#include "PS4MeshNew.h"
 #include "RenderObject.h"
 #include <gnmx\basegfxcontext.h>
 
 #include <iostream>
+
+
 //Test
 PS4RendererBase::PS4RendererBase()
 	:
@@ -28,14 +36,24 @@ PS4RendererBase::PS4RendererBase()
 	InitialiseGCMRendering();
 	InitialiseVideoSystem();
 
+#ifdef  SHADER_OLD
+	defaultShader = PS4Shader::GenerateShader(
+		"/app0/VertexShader.sb",
+		"/app0/PixelShader.sb"
+	);
+#else
 	defaultShader = new PS4ShaderNew(
 		"/app0/VertexShader.sb",
 		"/app0/PixelShader.sb"
 	);
+#endif //  SHADER_OLD
 
-	defaultMesh		= PS4Mesh::GenerateTriangle();
-	defaultTexture	= PS4Texture::LoadTextureFromFile("/app0/doge.gnf");
 
+
+
+
+	defaultMesh		= PS4MeshNew::GenerateQuad();
+	defaultTexture = new PS4TextureNew("/app0/doge.gnf");
 
 	viewProjMat		= (Matrix4*)onionAllocator.allocate(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
 	*viewProjMat	= Matrix4::identity();
@@ -200,9 +218,15 @@ void PS4RendererBase::RenderScene()			{
 
 	SetRenderBuffer(currentPS4Buffer, true, true, true);
 
-	//defaultShader->SubmitShaderSwitch(*currentGFXContext);
-	defaultShader->SetCommandList(currentGFXContext);
+#ifdef SHADER_OLD
+	defaultShader->SubmitShaderSwitch(*currentGFXContext);
+#else
+	defaultShader->SetGraphicsContext(currentGFXContext);
 	defaultShader->Activate();
+#endif // SHADER_OLD
+
+	//
+	
 	//Primitive Setup State
 	Gnm::PrimitiveSetup primitiveSetup;
 	primitiveSetup.init();
@@ -218,12 +242,14 @@ void PS4RendererBase::RenderScene()			{
 	dsc.setDepthEnable(true);
 	currentGFXContext->setDepthStencilControl(dsc);
 
-	Gnm::Sampler trilinearSampler;
-	trilinearSampler.init();
-	trilinearSampler.setMipFilterMode(Gnm::kMipFilterModeLinear);
+	//Gnm::Sampler trilinearSampler;
+	//trilinearSampler.init();
+	//trilinearSampler.setMipFilterMode(Gnm::kMipFilterModeLinear);
 
-	currentGFXContext->setTextures(Gnm::kShaderStagePs, 0, 1, &defaultTexture->GetAPITexture());
-	currentGFXContext->setSamplers(Gnm::kShaderStagePs, 0, 1, &trilinearSampler);
+	defaultTexture->SetCurrentGFXContext(currentGFXContext);
+	defaultTexture->Bind();
+	//currentGFXContext->setTextures(Gnm::kShaderStagePs, 0, 1, &defaultTexture->GetAPITexture());
+	//currentGFXContext->setSamplers(Gnm::kShaderStagePs, 0, 1, &trilinearSampler);
 
 	*viewProjMat = Matrix4::identity();
 
@@ -297,13 +323,12 @@ void PS4RendererBase::DrawRenderObject(RenderObject* o) {
 	Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
 	*transformMat = o->GetLocalTransform();
 
+#ifdef SHADER_OLD
 	Gnm::Buffer constantBuffer;
 	constantBuffer.initAsConstantBuffer(transformMat, sizeof(Matrix4));
 	constantBuffer.setResourceMemoryType(Gnm::kResourceMemoryTypeRO); // it's a constant buffer, so read-only is OK
 
 	PS4Shader* realShader = (PS4Shader*)o->GetShader();
-
-
 	int objIndex	= realShader->GetConstantBuffer("RenderObjectData");
 	int camIndex	= realShader->GetConstantBuffer("CameraData");
 
@@ -312,9 +337,23 @@ void PS4RendererBase::DrawRenderObject(RenderObject* o) {
 
 	realShader->SubmitShaderSwitch(*currentGFXContext);
 
-	DrawMesh(*defaultMesh);
+#else
+	PS4ShaderNew* realShader = (PS4ShaderNew*)o->GetShader();
+
+	realShader->SetGraphicsContext(currentGFXContext);
+	realShader->SetUniform("RenderObjectData", PS4ToNcl(o->GetLocalTransform()));
+	realShader->SetUniform("CameraData", PS4ToNcl(Matrix4::identity()));
+
+
+	realShader->Activate();
+#endif // SHADER_OLD
+
+	defaultMesh->SetGraphicsContext(currentGFXContext);
+	defaultMesh->Draw();
+	//DrawMesh(*defaultMesh);
 }
 
-void PS4RendererBase::DrawMesh(PS4Mesh& mesh) {
-	defaultMesh->SubmitDraw(*currentGFXContext, Gnm::ShaderStage::kShaderStageVs);
-}
+
+//void PS4RendererBase::DrawMesh(PS4Mesh& mesh) {
+//	defaultMesh->SubmitDraw(*currentGFXContext, Gnm::ShaderStage::kShaderStageVs);
+//}

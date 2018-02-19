@@ -9,9 +9,12 @@ PS4TextureNew::PS4TextureNew(const std::string& filepath)
 	LoadTexture(filepath);
 	//if (loadSuccess)
 	//{
-		SetTextureFiltering();
-		SetTextureWrapping();
+		//SetTextureFiltering();
+		//SetTextureWrapping();
 	//}
+
+	trilinearSampler.init();
+	trilinearSampler.setMipFilterMode(sce::Gnm::kMipFilterModeLinear);
 }
 
 
@@ -63,3 +66,23 @@ bool PS4TextureNew::LoadTexture(const std::string& filepath)
 
 	return true;
 }
+
+void PS4TextureNew::SetCurrentGFXContext(sce::Gnmx::GnmxGfxContext* GFXContext)
+{
+
+	currentGFXContext = GFXContext;
+	currentGFXContext->setSamplers(sce::Gnm::kShaderStagePs, 0, 1, &trilinearSampler);
+
+}
+
+void PS4TextureNew::Bind(int textureUnit)
+{
+	if (currentGFXContext)
+	{
+		currentGFXContext->setTextures(sce::Gnm::kShaderStagePs, 0, 1, &apiTexture);
+	}
+	
+}
+
+
+

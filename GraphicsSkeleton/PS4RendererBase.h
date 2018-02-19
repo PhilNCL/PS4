@@ -9,9 +9,9 @@
 #include <..\samples\sample_code\graphics\api_gnm\toolkit\stack_allocator.h>
 #include <..\samples\sample_code\graphics\api_gnm\toolkit\toolkit.h>
 #include "PS4Frame.h"
-#include "PS4Texture.h"
+#include "PS4TextureNew.h"
 
-#include "PS4ShaderNew.h"
+
 
 using namespace sce;
 using namespace Gnmx;
@@ -22,8 +22,14 @@ struct PS4ScreenBuffer  {
 	sce::Gnm::DepthRenderTarget depthTarget;
 };
 
+#ifdef  SHADER_OLD
 class PS4Shader;
-class PS4Mesh;
+#else
+class PS4ShaderNew;
+#endif //  SHADER_OLD
+
+
+class PS4MeshNew;
 
 class RenderObject;
 
@@ -59,7 +65,7 @@ private:
 
 	PS4ScreenBuffer* GenerateScreenBuffer(uint width, uint height, bool colour = true, bool depth = true, bool stencil = false);
 
-	void DrawMesh(PS4Mesh& mesh);
+	//void DrawMesh(PS4Mesh& mesh);
 
 protected:
 	int currentGPUBuffer;
@@ -81,9 +87,15 @@ protected:
 	sce::Gnmx::Toolkit::StackAllocator	stackAllocators[MEMORYMAX];
 
 	//default data
+#ifdef SHADER_OLD 
+	PS4Shader*		defaultShader;
+#else
 	PS4ShaderNew*	defaultShader;
-	PS4Mesh*	defaultMesh;
-	PS4Texture* defaultTexture;
+#endif // SHADER_OLD 
+
+	
+	PS4MeshNew*		defaultMesh;
+	PS4TextureNew* defaultTexture;
 
 	RenderObject* defaultObject;
 

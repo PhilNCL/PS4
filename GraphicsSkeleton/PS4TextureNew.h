@@ -16,13 +16,21 @@ public:
 	PS4TextureNew(const std::string& filepath);
 	~PS4TextureNew();
 
+	void SetCurrentGFXContext(sce::Gnmx::GnmxGfxContext* GFXContext);
 	void Bind(int textureUnit = 0);
-	void SetTextureFiltering(bool nearest = false);
-	void SetTextureWrapping(bool repeating = false);
+	//void SetTextureFiltering(bool nearest = false);
+	//void SetTextureWrapping(bool repeating = false);
 protected:
 
 	bool LoadTexture(const std::string& filepath);
 
 
 	sce::Gnm::Texture apiTexture;
+
+	sce::Gnmx::GnmxGfxContext*	currentGFXContext = nullptr;
+
+	sce::Gnm::Sampler trilinearSampler;
+
+	//bool repeating;
+	//bool 
 };

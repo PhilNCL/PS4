@@ -8,6 +8,7 @@
 #include "PS4MemoryAware.h"
 
 #include "nclPS4Interface.h"
+#include "ShaderBase.h"
 
 #include <map>
 namespace nclgl
@@ -18,13 +19,13 @@ namespace nclgl
 	}
 }
 
-class PS4ShaderNew : public PS4MemoryAware
+class PS4ShaderNew : public PS4MemoryAware, public ShaderBase
 {
 public:
 	PS4ShaderNew(const std::string& vertex, const std::string& pixel);
 	~PS4ShaderNew();
 
-	inline void SetCommandList(sce::Gnmx::GnmxGfxContext* cmdList) { commandList = cmdList; }
+	inline void SetGraphicsContext(sce::Gnmx::GnmxGfxContext* cmdList) { currentGFXContext = cmdList; }
 	void Activate();
 
 	//void SetUniform(const std::string& name, int i);
@@ -69,9 +70,6 @@ protected: // Contains metadata about shader for e.g. mapping to uniforms
 	sce::Shader::Binary::Program   pixelBinary;
 
 protected: 
-	// Current command list
-	sce::Gnmx::GnmxGfxContext*	   commandList = nullptr;
-
 	// Current graphics context
 	sce::Gnmx::GnmxGfxContext*	   currentGFXContext = nullptr;
 

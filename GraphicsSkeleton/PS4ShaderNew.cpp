@@ -36,6 +36,10 @@ PS4ShaderNew::PS4ShaderNew(const std::string& vertex, const std::string& pixel)
 {
 	//loadSuccess = false;
 
+	fetchShader = nullptr;
+	vertexShader = nullptr;
+	pixelShader = nullptr;
+
 	if (!IsBinary(vertex) || !IsBinary(pixel))
 	{
 		return;
@@ -167,12 +171,12 @@ void PS4ShaderNew::GenerateFetchShader(char* binData) {
 
 void PS4ShaderNew::Activate()
 {
-	if (commandList)
+	if (currentGFXContext)
 	{
-		commandList->setActiveShaderStages(sce::Gnm::kActiveShaderStagesVsPs);
+		currentGFXContext->setActiveShaderStages(sce::Gnm::kActiveShaderStagesVsPs);
 				   
-		commandList->setVsShader(vertexShader, 0, fetchShader, &vertexCache);
-		commandList->setPsShader(pixelShader, &pixelCache);
+		currentGFXContext->setVsShader(vertexShader, 0, fetchShader, &vertexCache);
+		currentGFXContext->setPsShader(pixelShader, &pixelCache);
 	}
 
 }
@@ -202,6 +206,8 @@ pair<ShaderStage, int> PS4ShaderNew::GetConstantBuffer(const std::string &name)
 	}
 }
 
+
+
 //void PS4ShaderNew::SetUniform(const std::string& name, int i)
 //{
 //
@@ -214,18 +220,26 @@ pair<ShaderStage, int> PS4ShaderNew::GetConstantBuffer(const std::string &name)
 //
 void PS4ShaderNew::SetUniform(const std::string& name, const nclgl::Maths::Matrix4& mat)
 {
-	// Allocate memory for buffer matrix
-	Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), sce::Gnm::kEmbeddedDataAlignment4);
-	*transformMat = nclToPS4(mat);
+	if (currentGFXContext)
+	{
+		// Allocate memory for buffer matrix
+		Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), sce::Gnm::kEmbeddedDataAlignment4);
+		*transformMat = nclToPS4(mat);
 
-	// Create (read-only) uniform buffer
-	sce::Gnm::Buffer constantBuffer;
-	constantBuffer.initAsConstantBuffer(transformMat, sizeof(Matrix4));
-	constantBuffer.setResourceMemoryType(sce::Gnm::kResourceMemoryTypeRO);
+		// Create (read-only) uniform buffer
+		sce::Gnm::Buffer constantBuffer;
+		constantBuffer.initAsConstantBuffer(transformMat, sizeof(Matrix4));
+		constantBuffer.setResourceMemoryType(sce::Gnm::kResourceMemoryTypeRO);
 
-	// Send uniform data to correct shader location
-	pair<ShaderStage, int> uniformLocation = GetConstantBuffer(name);
-	currentGFXContext->setConstantBuffers(uniformLocation.first, uniformLocation.second, 1, &constantBuffer);
+		// Send uniform data to correct shader location
+		pair<ShaderStage, int> uniformLocation = GetConstantBuffer(name);
+		currentGFXContext->setConstantBuffers(uniformLocation.first, uniformLocation.second, 1, &constantBuffer);
+	}
+	else
+	{
+		std::cout << "Tried to set uniform without a valid context" << std::endl;
+	}
+
 }
 //
 //void PS4ShaderNew::SetUniform(const std::string& name, const Vector2& vec)

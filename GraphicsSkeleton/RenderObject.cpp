@@ -15,7 +15,7 @@ RenderObject::~RenderObject()
 
 }
 
-RenderObject::RenderObject(Mesh* m, PS4ShaderNew* s, TextureBase* t) {
+RenderObject::RenderObject(Mesh* m, ShaderBase* s, TextureBase* t) {
 	mesh		= m;
 	shader		= s;
 	textures[0] = t;

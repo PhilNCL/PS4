@@ -101,6 +101,12 @@
     <ClCompile Include="PS4TextureNew.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PS4MeshNew.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PS4RenderNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -191,6 +197,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PS4TextureNew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PS4MeshNew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PS4RenderNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

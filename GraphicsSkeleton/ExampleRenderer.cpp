@@ -4,8 +4,9 @@
 ExampleRenderer::ExampleRenderer()
 {
 	rotation = 0.0f;
-	defaultObject[0] = new RenderObject((Mesh*)defaultMesh, defaultShader, (TextureBase*)defaultTexture);
-	defaultObject[1] = new RenderObject((Mesh*)defaultMesh, defaultShader, (TextureBase*)defaultTexture);
+	defaultObject[0] = new RenderObject((Mesh*)defaultMesh, (ShaderBase*)defaultShader, (TextureBase*)defaultTexture);
+	defaultObject[1] = new RenderObject((Mesh*)defaultMesh, (ShaderBase*)defaultShader, (TextureBase*)defaultTexture);
+
 }
 
 ExampleRenderer::~ExampleRenderer()

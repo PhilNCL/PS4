@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">
     <ClCompile>
-      <PreprocessorDefinitions>_DEBUG;SCE_GNM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SHADER_OLD;_DEBUG;SCE_GNM_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -91,8 +91,10 @@
     <ClCompile Include="PS4Input.cpp" />
     <ClCompile Include="PS4MemoryAware.cpp" />
     <ClCompile Include="PS4Mesh.cpp" />
+    <ClCompile Include="PS4MeshNew.cpp" />
     <ClCompile Include="PS4Renderer.cpp" />
     <ClCompile Include="PS4RendererBase.cpp" />
+    <ClCompile Include="PS4RenderNode.cpp" />
     <ClCompile Include="PS4Shader.cpp" />
     <ClCompile Include="PS4ShaderNew.cpp" />
     <ClCompile Include="PS4Sound.cpp" />
@@ -120,8 +122,10 @@
     <ClInclude Include="PS4Input.h" />
     <ClInclude Include="PS4MemoryAware.h" />
     <ClInclude Include="PS4Mesh.h" />
+    <ClInclude Include="PS4MeshNew.h" />
     <ClInclude Include="PS4Renderer.h" />
     <ClInclude Include="PS4RendererBase.h" />
+    <ClInclude Include="PS4RenderNode.h" />
     <ClInclude Include="PS4Shader.h" />
     <ClInclude Include="PS4ShaderNew.h" />
     <ClInclude Include="PS4Sound.h" />

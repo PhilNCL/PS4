@@ -21,6 +21,5 @@ protected:
 	~PS4Texture();
 
 	sce::Gnm::Texture apiTexture;
-
 };
 
