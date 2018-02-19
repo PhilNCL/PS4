@@ -21,6 +21,7 @@ namespace nclgl
 
 class PS4ShaderNew : public PS4MemoryAware, public ShaderBase
 {
+	friend class PS4RendererBase;
 public:
 	PS4ShaderNew(const std::string& vertex, const std::string& pixel);
 	~PS4ShaderNew();

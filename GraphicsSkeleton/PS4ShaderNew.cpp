@@ -85,7 +85,7 @@ void PS4ShaderNew::GeneratePixelShader(const string& pixel)
 
 	sce::Gnmx::generateInputOffsetsCache(&pixelCache, Gnm::kShaderStagePs, pixelShader);
 
-	delete binData;
+	//delete binData;
 }
 
 void PS4ShaderNew::GenerateVertexShader(const std::string& vertex)
@@ -121,7 +121,7 @@ void PS4ShaderNew::GenerateVertexShader(const std::string& vertex)
 	sce::Gnmx::generateInputOffsetsCache(&vertexCache, sce::Gnm::kShaderStageVs, vertexShader);
 
 	GenerateFetchShader(binData);
-	delete binData;
+	//delete binData;
 }
 
 bool PS4ShaderNew::LoadShaderBinary(const string &name, char*& into, int& dataSize) {
