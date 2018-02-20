@@ -11,7 +11,7 @@
 #include "PS4Frame.h"
 #include "PS4TextureNew.h"
 
-
+#include "PS4FrameBuffer.h"
 
 using namespace sce;
 using namespace Gnmx;
@@ -65,6 +65,8 @@ private:
 
 	PS4ScreenBuffer* GenerateScreenBuffer(uint width, uint height, bool colour = true, bool depth = true, bool stencil = false);
 
+	PS4FrameBuffer * GenerateScreenFrameBuffer(uint width, uint height, bool colour = true, bool depth = true, bool stencil = false);
+
 	//void DrawMesh(PS4Mesh& mesh);
 
 protected:
@@ -80,6 +82,7 @@ protected:
 	int					currentScreenBuffer;
 	int					prevScreenBuffer;
 	PS4ScreenBuffer**	screenBuffers;	//Pointer to our screen buffers
+	PS4FrameBuffer**	FrameBuffers;	//Pointer to our screen buffers
 //Memory Allocation
 	const int _GarlicMemory;
 	const int _OnionMemory;
@@ -109,6 +112,7 @@ protected:
 
 	//Per frame pointers...
 	PS4ScreenBuffer*		currentPS4Buffer;  //Pointer to whichever buffer we're currently using...
+	PS4FrameBuffer*		currentPS4FrameBuffer;
 	Gnmx::GnmxGfxContext*	currentGFXContext;
 	PS4Frame*				currentFrame;
 };

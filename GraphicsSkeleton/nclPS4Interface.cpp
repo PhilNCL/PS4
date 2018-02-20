@@ -5,15 +5,10 @@ sce::Vectormath::Scalar::Aos::Matrix4 nclToPS4(const nclgl::Maths::Matrix4& mat)
 {
 	// PS4 matrix is column major but nclgl matrix is row major
 	sce::Vectormath::Scalar::Aos::Matrix4 outMat;
-	outMat.setCol0(sce::Vectormath::Scalar::Aos::Vector4(mat.values[0], mat.values[1], mat.values[2], mat.values[3]));
-	outMat.setCol1(sce::Vectormath::Scalar::Aos::Vector4(mat.values[4], mat.values[5], mat.values[6], mat.values[7]));
-	outMat.setCol2(sce::Vectormath::Scalar::Aos::Vector4(mat.values[8], mat.values[9], mat.values[10], mat.values[11]));
-	outMat.setCol3(sce::Vectormath::Scalar::Aos::Vector4(mat.values[12], mat.values[13], mat.values[14], mat.values[15]));
-
-	/*outMat.setCol0(sce::Vectormath::Scalar::Aos::Vector4(mat.values[0], mat.values[4], mat.values[8], mat.values[12]));
+	outMat.setCol0(sce::Vectormath::Scalar::Aos::Vector4(mat.values[0], mat.values[4], mat.values[8], mat.values[12]));
 	outMat.setCol1(sce::Vectormath::Scalar::Aos::Vector4(mat.values[1], mat.values[5], mat.values[9], mat.values[13]));
 	outMat.setCol2(sce::Vectormath::Scalar::Aos::Vector4(mat.values[2], mat.values[6], mat.values[10], mat.values[14]));
-	outMat.setCol3(sce::Vectormath::Scalar::Aos::Vector4(mat.values[3], mat.values[7], mat.values[11], mat.values[15]));*/
+	outMat.setCol3(sce::Vectormath::Scalar::Aos::Vector4(mat.values[3], mat.values[7], mat.values[11], mat.values[15]));
 
 
 	return outMat;

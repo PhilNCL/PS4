@@ -4,6 +4,12 @@
 
 #include <gnf.h>
 
+PS4TextureNew::PS4TextureNew()
+{
+	trilinearSampler.init();
+	trilinearSampler.setMipFilterMode(sce::Gnm::kMipFilterModeLinear);
+}
+
 PS4TextureNew::PS4TextureNew(const std::string& filepath)
 {
 	LoadTexture(filepath);

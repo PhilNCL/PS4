@@ -16,6 +16,7 @@ class PS4ScreenBuffer;
 
 class PS4Renderer : public PS4MemoryAware
 {
+	
 public:
 	PS4Renderer();
 	~PS4Renderer();
