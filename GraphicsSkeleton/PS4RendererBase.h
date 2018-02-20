@@ -22,13 +22,8 @@ struct PS4ScreenBuffer  {
 	sce::Gnm::DepthRenderTarget depthTarget;
 };
 
-#ifdef  SHADER_OLD
-class PS4Shader;
-#else
+
 class PS4ShaderNew;
-#endif //  SHADER_OLD
-
-
 class PS4MeshNew;
 
 class RenderObject;
@@ -86,14 +81,7 @@ protected:
 
 	sce::Gnmx::Toolkit::StackAllocator	stackAllocators[MEMORYMAX];
 
-	//default data
-#ifdef SHADER_OLD 
-	PS4Shader*		defaultShader;
-#else
 	PS4ShaderNew*	defaultShader;
-#endif // SHADER_OLD 
-
-	
 	PS4MeshNew*		defaultMesh;
 	PS4TextureNew* defaultTexture;
 

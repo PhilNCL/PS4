@@ -1,11 +1,9 @@
 #include "PS4RendererBase.h"
 #include <video_out.h>	//Video System
 
-#ifdef SHADER_OLD
-#include "PS4Shader.h"
-#else
+
 #include "PS4ShaderNew.h"
-#endif
+
 
 #include "PS4MeshNew.h"
 #include "RenderObject.h"
@@ -36,17 +34,11 @@ PS4RendererBase::PS4RendererBase()
 	InitialiseGCMRendering();
 	InitialiseVideoSystem();
 
-#ifdef  SHADER_OLD
-	defaultShader = PS4Shader::GenerateShader(
-		"/app0/VertexShader.sb",
-		"/app0/PixelShader.sb"
-	);
-#else
 	defaultShader = new PS4ShaderNew(
 		"/app0/VertexShader.sb",
 		"/app0/PixelShader.sb"
 	);
-#endif //  SHADER_OLD
+
 
 
 
@@ -218,14 +210,9 @@ void PS4RendererBase::RenderScene()			{
 
 	SetRenderBuffer(currentPS4Buffer, true, true, true);
 
-#ifdef SHADER_OLD
-	defaultShader->SubmitShaderSwitch(*currentGFXContext);
-#else
+
 	defaultShader->SetGraphicsContext(currentGFXContext);
 	defaultShader->Activate();
-#endif // SHADER_OLD
-
-	//
 	
 	//Primitive Setup State
 	Gnm::PrimitiveSetup primitiveSetup;
@@ -323,30 +310,14 @@ void PS4RendererBase::DrawRenderObject(RenderObject* o) {
 	Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
 	*transformMat = nclToPS4( PS4ToNcl(o->GetLocalTransform()));
 
-#ifdef SHADER_OLD
-	Gnm::Buffer constantBuffer;
-	constantBuffer.initAsConstantBuffer(transformMat, sizeof(Matrix4));
-	constantBuffer.setResourceMemoryType(Gnm::kResourceMemoryTypeRO); // it's a constant buffer, so read-only is OK
-
-	PS4Shader* realShader = (PS4Shader*)o->GetShader();
-	int objIndex	= realShader->GetConstantBuffer("RenderObjectData");
-	int camIndex	= realShader->GetConstantBuffer("CameraData");
-
-	currentGFXContext->setConstantBuffers(Gnm::kShaderStageVs, objIndex, 1, &constantBuffer);
-	currentGFXContext->setConstantBuffers(Gnm::kShaderStageVs, camIndex, 1, &cameraBuffer);
-
-	realShader->SubmitShaderSwitch(*currentGFXContext);
-
-#else
 	PS4ShaderNew* realShader = (PS4ShaderNew*)o->GetShader();
 
 	realShader->SetGraphicsContext(currentGFXContext);
 	realShader->SetUniform("RenderObjectData", PS4ToNcl(o->GetLocalTransform()));
 	realShader->SetUniform("CameraData", PS4ToNcl(Matrix4::identity()));
 
-
 	realShader->Activate();
-#endif // SHADER_OLD
+
 
 	defaultMesh->SetGraphicsContext(currentGFXContext);
 	defaultMesh->Draw();
