@@ -120,15 +120,15 @@ void	PS4RendererBase::InitialiseVideoSystem() {
 		SCE_VIDEO_OUT_PIXEL_FORMAT_B8_G8_R8_A8_SRGB,
 		SCE_VIDEO_OUT_TILING_MODE_TILE,
 		SCE_VIDEO_OUT_ASPECT_RATIO_16_9,
-		FrameBuffers[0]->colourTarget.getWidth(),
-		FrameBuffers[0]->colourTarget.getHeight(),
-		FrameBuffers[0]->colourTarget.getPitch()
+		FrameBuffers[0]->colourTarget.at(0).getWidth(),
+		FrameBuffers[0]->colourTarget.at(0).getHeight(),
+		FrameBuffers[0]->colourTarget.at(0).getPitch()
 	);
 
 	void* bufferAddresses[_bufferCount];
 
 	for (int i = 0; i < _bufferCount; ++i) {
-		bufferAddresses[i] = FrameBuffers[i]->colourTarget.getBaseAddress();
+		bufferAddresses[i] = FrameBuffers[i]->colourTarget.at(0).getBaseAddress();
 	}
 
 	sceVideoOutRegisterBuffers(videoHandle, 0, bufferAddresses, _bufferCount, &attribute);
