@@ -326,7 +326,12 @@ void PS4RendererBase::RenderScene()			{
 
 	currentGFXContext->waitUntilSafeForRendering(videoHandle, currentGPUBuffer);
 
+#ifdef OLD_BUFFERS
 	SetRenderBuffer(currentPS4Buffer, true, true, true);
+#else
+	SetRenderFrameBuffer(currentPS4FrameBuffer, true, true, true);
+#endif //old buffers
+
 
 #ifdef SHADER_OLD
 	defaultShader->SubmitShaderSwitch(*currentGFXContext);
@@ -416,6 +421,13 @@ void	PS4RendererBase::SetRenderBuffer(PS4ScreenBuffer*buffer, bool clearColour, 
 	currentGFXContext->setGenericScissor(0, 0, currentPS4Buffer->colourTarget.getWidth(), currentPS4Buffer->colourTarget.getHeight(), sce::Gnm::WindowOffsetMode::kWindowOffsetDisable);
 
 	ClearBuffer(clearColour, clearDepth, clearStencil);
+}
+
+
+void	PS4RendererBase::SetRenderFrameBuffer(PS4FrameBuffer*buffer, bool clearColour, bool clearDepth, bool clearStencil) {
+	currentPS4FrameBuffer = buffer;
+	currentPS4FrameBuffer->SetGraphicsContext(currentGFXContext);
+	currentPS4FrameBuffer->Activate();
 }
 
 void	PS4RendererBase::ClearBuffer(bool colour, bool depth, bool stencil) {

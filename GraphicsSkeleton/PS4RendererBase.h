@@ -61,6 +61,7 @@ private:
 	void	DestroyGCMRendering();
 
 	void	SetRenderBuffer(PS4ScreenBuffer*buffer, bool clearColour, bool clearDepth, bool clearStencil);
+	void SetRenderFrameBuffer(PS4FrameBuffer * buffer, bool clearColour, bool clearDepth, bool clearStencil);
 	void	ClearBuffer(bool colour, bool depth, bool stencil);
 
 	PS4ScreenBuffer* GenerateScreenBuffer(uint width, uint height, bool colour = true, bool depth = true, bool stencil = false);

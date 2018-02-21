@@ -75,9 +75,11 @@ void PS4FrameBuffer::ClearBuffer()
 		SurfaceUtil::clearDepthTarget(*currentGFXContext, &this->depthTarget, defaultDepth);
 	
 	//clear stencil
-	
-		int defaultStencil = 0;
-		SurfaceUtil::clearStencilTarget(*currentGFXContext, &this->depthTarget, defaultStencil);
+		if (this->depthTarget.getStencilReadAddress()) {
+			int defaultStencil = 0;
+			SurfaceUtil::clearStencilTarget(*currentGFXContext, &this->depthTarget, defaultStencil);
+	    }
+		
 	
 
 }
