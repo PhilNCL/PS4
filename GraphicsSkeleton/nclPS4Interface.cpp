@@ -25,7 +25,7 @@ nclgl::Maths::Matrix4 PS4ToNcl(const sce::Vectormath::Scalar::Aos::Matrix4& mat)
 	{
 		for (int col = 0; col < 4; ++col)
 		{
-			outMat.values[(row*4) + col] = mat.getElem(col, row);
+			outMat.values[(row*4) + col] = mat.getElem(row, col);
 		}
 	}
 	return outMat;

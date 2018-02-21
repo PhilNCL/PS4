@@ -19,12 +19,10 @@ ExampleRenderer::~ExampleRenderer()
 
 void ExampleRenderer::UpdateScene(float dt)	{
 	rotation += dt;
-	nclgl::Maths::Matrix4 rotationZ = nclgl::Maths::Matrix4::Rotation(rotation, nclgl::Maths::Vector3(0.0f, 0.0f, 1.0f));
+	nclgl::Maths::Matrix4 rotationZ = nclgl::Maths::Matrix4::Rotation(rotation * (180 / PI), nclgl::Maths::Vector3(0.0f, 0.0f, 1.0f));
 	
-	//defaultObject[0]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(-0.4, 0.0, 0)) * rotationZ);
-	//defaultObject[1]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(0.4, 0, 0)));
-	defaultObject[0]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(-0.4, 0.0, 0)));
-	defaultObject[1]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(+0.4, 0.0, 0)));
+	defaultObject[0]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(-0.4, 0.0, 0)) * rotationZ);
+	defaultObject[1]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(0.4, 0, 0)));
 }
 
 void ExampleRenderer::RenderActiveScene() 
