@@ -303,6 +303,8 @@ PS4FrameBuffer*	PS4RendererBase::GenerateScreenFrameBuffer(uint width, uint heig
 
 	PS4FrameBuffer* FrameBuffer = new PS4FrameBuffer(colorps4Text, depthps4Text);
 
+	FrameBuffer->SetMem(colourMemory, depthMemory);
+
 	return FrameBuffer;
 }
 
@@ -395,6 +397,7 @@ void	PS4RendererBase::SwapScreenBuffer() {
 
 }
 
+int k; 
 void	PS4RendererBase::SwapCommandBuffer() {
 	if (currentGFXContext) {	
 		if (currentGFXContext->submit() != sce::Gnm::kSubmissionSuccess) {
@@ -407,6 +410,11 @@ void	PS4RendererBase::SwapCommandBuffer() {
 	 
 	currentFrame		= &frames[currentGPUBuffer]; 
 	currentGFXContext	= &currentFrame->GetCommandBuffer();
+
+	std::cout << k << "\n";
+	++k;
+
+
 }
  
 void	PS4RendererBase::SetRenderBuffer(PS4ScreenBuffer*buffer, bool clearColour, bool clearDepth, bool clearStencil) {

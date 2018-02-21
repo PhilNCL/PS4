@@ -17,6 +17,7 @@ public:
 	~PS4FrameBuffer();
 
 	PS4FrameBuffer(PS4TextureNew* colourTex, PS4TextureNew* depthTex);
+	void SetMem(void * colourMemory, void * depthMemory);
 	PS4FrameBuffer(std::vector<PS4TextureNew*> colourTex, PS4TextureNew* depthTex);
 	PS4FrameBuffer(PS4TextureNew* depthTex, bool colour);
 

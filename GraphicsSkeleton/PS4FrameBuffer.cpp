@@ -15,12 +15,21 @@ PS4FrameBuffer::PS4FrameBuffer(PS4TextureNew * colourTex, PS4TextureNew * depthT
 	colourTarget.initFromTexture(&colourTex->apiTexture, 0);
 	colourTexture = colourTex;
 
+
 	depthTarget.initFromTexture(&depthTex->apiTexture, 0);
 	depthTexture = depthTex;
 
 	height = colourTexture->apiTexture.getHeight();
 	width = colourTexture->apiTexture.getWidth();
 }
+
+void PS4FrameBuffer::SetMem(void *colourMemory, void *depthMemory) {
+
+	this->colourTarget.setAddresses(colourMemory, NULL, NULL);
+
+	this->depthTarget.setAddresses(depthMemory, NULL);
+}
+
 
 PS4FrameBuffer::PS4FrameBuffer(std::vector<PS4TextureNew*> colourTex, PS4TextureNew * depthTex)
 {
