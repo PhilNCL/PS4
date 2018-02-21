@@ -1,11 +1,13 @@
 #include "ExampleRenderer.h"
 #include "RenderObject.h"
 
+#include "PS4RenderNode.h"
+
 ExampleRenderer::ExampleRenderer()
 {
 	rotation = 0.0f;
-	defaultObject[0] = new RenderObject((Mesh*)defaultMesh, (ShaderBase*)defaultShader, (TextureBase*)defaultTexture);
-	defaultObject[1] = new RenderObject((Mesh*)defaultMesh, (ShaderBase*)defaultShader, (TextureBase*)defaultTexture);
+	defaultObject[0] = new PS4RenderNode((MeshBase*)defaultMesh);
+	defaultObject[1] = new PS4RenderNode((MeshBase*)defaultMesh);
 
 }
 
@@ -17,13 +19,29 @@ ExampleRenderer::~ExampleRenderer()
 
 void ExampleRenderer::UpdateScene(float dt)	{
 	rotation += dt;
-	Matrix4::rotationZ(rotation);
-	defaultObject[0]->SetLocalTransform(Matrix4::translation(Vector3(-0.4, 0, 0)) * Matrix4::rotationZ(rotation));
-
-	defaultObject[1]->SetLocalTransform(Matrix4::translation(Vector3(0.4, 0, 0)));
+	nclgl::Maths::Matrix4 rotationZ = nclgl::Maths::Matrix4::Rotation(rotation, nclgl::Maths::Vector3(0.0f, 0.0f, 1.0f));
+	
+	//defaultObject[0]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(-0.4, 0.0, 0)) * rotationZ);
+	//defaultObject[1]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(0.4, 0, 0)));
+	defaultObject[0]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(-0.4, 0.0, 0)));
+	defaultObject[1]->SetTransform(nclgl::Maths::Matrix4::Translation(nclgl::Maths::Vector3(+0.4, 0.0, 0)));
 }
 
-void ExampleRenderer::RenderActiveScene() {
-	DrawRenderObject(defaultObject[0]);
-	DrawRenderObject(defaultObject[1]);
+void ExampleRenderer::RenderActiveScene() 
+{
+	defaultShader->SetGraphicsContext(currentGFXContext);
+	
+	defaultShader->SetUniform("CameraData", PS4ToNcl(Matrix4::identity()));
+
+	defaultShader->Activate();
+
+	for (int i = 0; i < 2; ++i)
+	{
+		defaultObject[i]->SetGraphicsContext(currentGFXContext);
+		auto x = defaultObject[i]->GetTransform();
+		defaultShader->SetUniform("RenderObjectData", defaultObject[i]->GetTransform());
+
+		defaultObject[i]->Draw();
+	}
+
 }

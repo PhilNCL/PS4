@@ -26,7 +26,7 @@ struct PS4ScreenBuffer  {
 class PS4ShaderNew;
 class PS4MeshNew;
 
-class RenderObject;
+class PS4RenderNode;
 
 class PS4RendererBase : 
 	public RendererBase, public PS4MemoryAware
@@ -56,7 +56,7 @@ private:
 	void	DestroyGCMRendering();
 
 	void	SetRenderBuffer(PS4ScreenBuffer*buffer, bool clearColour, bool clearDepth, bool clearStencil);
-	void SetRenderFrameBuffer(PS4FrameBuffer * buffer, bool clearColour, bool clearDepth, bool clearStencil);
+	void	SetRenderFrameBuffer(PS4FrameBuffer * buffer, bool clearColour, bool clearDepth, bool clearStencil);
 	void	ClearBuffer(bool colour, bool depth, bool stencil);
 
 	PS4ScreenBuffer* GenerateScreenBuffer(uint width, uint height, bool colour = true, bool depth = true, bool stencil = false);
@@ -89,7 +89,7 @@ protected:
 	PS4MeshNew*		defaultMesh;
 	PS4TextureNew* defaultTexture;
 
-	RenderObject* defaultObject;
+	PS4RenderNode* defaultObject;
 
 	//Individual Frames
 	PS4Frame*	frames;
@@ -101,7 +101,7 @@ protected:
 
 	//Per frame pointers...
 	PS4ScreenBuffer*		currentPS4Buffer;  //Pointer to whichever buffer we're currently using...
-	PS4FrameBuffer*		currentPS4FrameBuffer;
+	PS4FrameBuffer*			currentPS4FrameBuffer;
 	Gnmx::GnmxGfxContext*	currentGFXContext;
 	PS4Frame*				currentFrame;
 };

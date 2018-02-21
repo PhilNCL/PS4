@@ -39,11 +39,6 @@ PS4RendererBase::PS4RendererBase()
 		"/app0/PixelShader.sb"
 	);
 
-
-
-
-
-
 	defaultMesh		= PS4MeshNew::GenerateQuad();
 	defaultTexture = new PS4TextureNew("/app0/doge.gnf");
 
@@ -444,20 +439,20 @@ void	PS4RendererBase::ClearBuffer(bool colour, bool depth, bool stencil) {
 }
 
 void PS4RendererBase::DrawRenderObject(RenderObject* o) {
-	Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
-	*transformMat = nclToPS4( PS4ToNcl(o->GetLocalTransform()));
+	//Matrix4* transformMat = (Matrix4*)currentGFXContext->allocateFromCommandBuffer(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
+	//*transformMat = nclToPS4( PS4ToNcl(o->GetLocalTransform()));
 
-	PS4ShaderNew* realShader = (PS4ShaderNew*)o->GetShader();
+	//PS4ShaderNew* realShader = (PS4ShaderNew*)o->GetShader();
 
-	realShader->SetGraphicsContext(currentGFXContext);
-	realShader->SetUniform("RenderObjectData", PS4ToNcl(o->GetLocalTransform()));
-	realShader->SetUniform("CameraData", PS4ToNcl(Matrix4::identity()));
+	//realShader->SetGraphicsContext(currentGFXContext);
+	//realShader->SetUniform("RenderObjectData", PS4ToNcl(o->GetLocalTransform()));
+	//realShader->SetUniform("CameraData", PS4ToNcl(Matrix4::identity()));
 
-	realShader->Activate();
+	//realShader->Activate();
 
 
-	defaultMesh->SetGraphicsContext(currentGFXContext);
-	defaultMesh->Draw();
+	//defaultMesh->SetGraphicsContext(currentGFXContext);
+	//defaultMesh->Draw();
 	//DrawMesh(*defaultMesh);
 }
 

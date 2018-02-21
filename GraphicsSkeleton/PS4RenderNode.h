@@ -4,6 +4,8 @@
 
 #include "PS4MeshNew.h"
 
+class MeshBase;
+
 namespace nclgl
 {
 	namespace Maths
@@ -17,7 +19,7 @@ namespace nclgl
 class PS4RenderNode
 {
 public:
-	PS4RenderNode();
+	PS4RenderNode(MeshBase* m = NULL, nclgl::Maths::Vector4 colour = nclgl::Maths::Vector4(1, 1, 1, 1));
 	~PS4RenderNode();
 
 	 void	Update(float msec);
@@ -25,15 +27,18 @@ public:
 
 	// Transforms
 	 void							SetTransform(const nclgl::Maths::Matrix4 &matrix) ;
-	 const nclgl::Maths::Matrix4&	GetTransform() const ;
-	 const nclgl::Maths::Matrix4&	GetWorldTransform() const ;
+	 const nclgl::Maths::Matrix4	GetTransform() const ;
+	 const nclgl::Maths::Matrix4	GetWorldTransform() const ;
 	 void							SetWorldTransform(const nclgl::Maths::Matrix4 &matrix) ;
 
 	 void							SetModelScale(const nclgl::Maths::Vector3& scale) ;
-	 const nclgl::Maths::Vector3&	GetModelScale() const ;
+	 const nclgl::Maths::Vector3	GetModelScale() const ;
 
-	 nclgl::Maths::Vector4&			GetColour() ;
+	 nclgl::Maths::Vector4			GetColour() ;
 	 void							SetColour(const nclgl::Maths::Vector4 &c);
+
+
+	 inline void SetGraphicsContext(sce::Gnmx::GnmxGfxContext* context) { mesh->SetGraphicsContext(context); }
 
 protected:
 	sce::Vectormath::Scalar::Aos::Matrix4			worldTransform;

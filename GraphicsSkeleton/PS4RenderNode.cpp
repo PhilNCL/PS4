@@ -2,8 +2,10 @@
 
 
 
-PS4RenderNode::PS4RenderNode()
+PS4RenderNode::PS4RenderNode(MeshBase* m, nclgl::Maths::Vector4 colour)
 {
+	mesh = (PS4MeshNew*)m;
+	this->colour = nclToPS4(colour);
 }
 
 
@@ -24,17 +26,17 @@ void	PS4RenderNode::Draw()
 	}
 }
 
-void							PS4RenderNode::SetTransform(const nclgl::Maths::Matrix4 &matrix)
+void	PS4RenderNode::SetTransform(const nclgl::Maths::Matrix4 &matrix)
 {
 	transform = nclToPS4(matrix);
 }
 
-const nclgl::Maths::Matrix4&	PS4RenderNode::GetTransform() const
+const nclgl::Maths::Matrix4	PS4RenderNode::GetTransform() const
 {
 	return PS4ToNcl(transform);
 }
 
-const nclgl::Maths::Matrix4&	PS4RenderNode::GetWorldTransform() const
+const nclgl::Maths::Matrix4	PS4RenderNode::GetWorldTransform() const
 {
 	return PS4ToNcl(worldTransform);
 }
@@ -49,14 +51,14 @@ void							PS4RenderNode::SetModelScale(const nclgl::Maths::Vector3& scale)
 	modelScale = nclToPS4(scale);
 }
 
-const nclgl::Maths::Vector3&	PS4RenderNode::GetModelScale() const
+const nclgl::Maths::Vector3	PS4RenderNode::GetModelScale() const
 {
 
 }
 						
-nclgl::Maths::Vector4&			PS4RenderNode::GetColour()
+nclgl::Maths::Vector4			PS4RenderNode::GetColour()
 {
-	//return PS4ToNcl(colour);
+	return PS4ToNcl(colour);
 }
 
 void							PS4RenderNode::SetColour(const nclgl::Maths::Vector4 &c)

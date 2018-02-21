@@ -15,6 +15,6 @@ protected:
 
 
 	float rotation;
-	RenderObject* defaultObject[2];
+	PS4RenderNode* defaultObject[2];
 };
 
