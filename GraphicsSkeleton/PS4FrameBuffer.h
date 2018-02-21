@@ -21,6 +21,8 @@ public:
 	PS4FrameBuffer(std::vector<PS4TextureNew*> colourTex, PS4TextureNew* depthTex);
 	PS4FrameBuffer(PS4TextureNew* depthTex, bool colour);
 
+	void SetMem(std::vector<void*> colourMemory, void * depthMemory);
+
 	uint GetWidth();
 	uint GetHeight();
 
@@ -34,15 +36,17 @@ public:
 	uint bufferID;
 
 
-	sce::Gnm::RenderTarget		colourTarget;
+	std::vector<sce::Gnm::RenderTarget>		colourTarget;
 	sce::Gnm::DepthRenderTarget depthTarget;
 protected:
 
 	uint width;
 	uint height;
 
+	bool hasColor = false;
+	bool hasDepth = false;
 
-	PS4TextureNew* colourTexture;
+	std::vector<PS4TextureNew*> colourTexture;
 	PS4TextureNew* depthTexture;
 
 	// Current graphics context
