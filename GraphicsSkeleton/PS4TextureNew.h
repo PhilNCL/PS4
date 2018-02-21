@@ -13,6 +13,7 @@ namespace Texture
 class PS4TextureNew : public PS4MemoryAware
 {
 public:
+	PS4TextureNew();
 	PS4TextureNew(const std::string& filepath);
 	~PS4TextureNew();
 
@@ -20,12 +21,14 @@ public:
 	void Bind(int textureUnit = 0);
 	//void SetTextureFiltering(bool nearest = false);
 	//void SetTextureWrapping(bool repeating = false);
+	sce::Gnm::Texture apiTexture;
+
 protected:
 
 	bool LoadTexture(const std::string& filepath);
 
 
-	sce::Gnm::Texture apiTexture;
+	
 
 	sce::Gnmx::GnmxGfxContext*	currentGFXContext = nullptr;
 

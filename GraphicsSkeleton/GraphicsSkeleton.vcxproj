@@ -88,6 +88,7 @@
     <ClCompile Include="PS4AudioSystem.cpp" />
     <ClCompile Include="PS4ComputeShader.cpp" />
     <ClCompile Include="PS4Frame.cpp" />
+    <ClCompile Include="PS4FrameBuffer.cpp" />
     <ClCompile Include="PS4Input.cpp" />
     <ClCompile Include="PS4MemoryAware.cpp" />
     <ClCompile Include="PS4Mesh.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="PS4AudioSystem.h" />
     <ClInclude Include="PS4ComputeShader.h" />
     <ClInclude Include="PS4Frame.h" />
+    <ClInclude Include="PS4FrameBuffer.h" />
     <ClInclude Include="PS4Input.h" />
     <ClInclude Include="PS4MemoryAware.h" />
     <ClInclude Include="PS4Mesh.h" />
