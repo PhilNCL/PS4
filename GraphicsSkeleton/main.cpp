@@ -3,7 +3,7 @@ unsigned int sceLibcHeapExtendedAlloc = 1;			/* Switch to dynamic allocation */
 size_t       sceLibcHeapSize = 256 * 1024 * 1024;	/* Set up heap area upper limit as 256 MiB */
 
 
-//#include "ExampleRenderer.h"
+#include "ExampleRenderer.h"
 
 #include "PS4Input.h"
 
@@ -13,8 +13,11 @@ size_t       sceLibcHeapSize = 256 * 1024 * 1024;	/* Set up heap area upper limi
 #include "MiniGraphicsPipeline.h"
 
 int main(void) {
+
 	//ExampleRenderer renderer;
+
 	MiniGraphicsPipeline gp;
+
 
 	PS4Input		input		= PS4Input();
 
@@ -22,12 +25,14 @@ int main(void) {
 
 	while (true) {
 		input.Poll();
+
 		//renderer.UpdateScene(0.02);
 		//renderer.RenderScene();
 		//renderer.SwapBuffers();
-
-		gp.UpdateScene(0.02);
-		gp.RenderScene();
+	
+	gp.UpdateScene(0.02);
+	gp.RenderScene();
+	
 	
 
 		if (input.GetButton(0)) {

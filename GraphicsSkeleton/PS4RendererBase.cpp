@@ -42,12 +42,12 @@ PS4RendererBase::PS4RendererBase()
 	defaultMesh		= PS4MeshNew::GenerateQuad();
 	defaultTexture = new PS4TextureNew("/app0/doge.gnf");
 
-	viewProjMat		= (Matrix4*)onionAllocator.allocate(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
-	*viewProjMat	= Matrix4::identity();
+	//viewProjMat		= (Matrix4*)onionAllocator.allocate(sizeof(Matrix4), Gnm::kEmbeddedDataAlignment4);
+	//*viewProjMat	= Matrix4::identity();
 
-	cameraBuffer.initAsConstantBuffer(viewProjMat, sizeof(Matrix4));
-	cameraBuffer.setResourceMemoryType(Gnm::kResourceMemoryTypeRO); // it's a constant buffer, so read-only is OK
-
+	//cameraBuffer.initAsConstantBuffer(viewProjMat, sizeof(Matrix4));
+	//cameraBuffer.setResourceMemoryType(Gnm::kResourceMemoryTypeRO); // it's a constant buffer, so read-only is OK
+	
 	SwapBuffers();
 }
 
@@ -285,11 +285,8 @@ void PS4RendererBase::RenderScene()			{
 
 	currentGFXContext->waitUntilSafeForRendering(videoHandle, currentGPUBuffer);
 
-#ifdef OLD_BUFFERS
-	SetRenderBuffer(currentPS4Buffer, true, true, true);
-#else
 	SetRenderFrameBuffer(currentPS4FrameBuffer, true, true, true);
-#endif //old buffers
+
 
 
 
@@ -320,7 +317,7 @@ void PS4RendererBase::RenderScene()			{
 	//currentGFXContext->setTextures(Gnm::kShaderStagePs, 0, 1, &defaultTexture->GetAPITexture());
 	//currentGFXContext->setSamplers(Gnm::kShaderStagePs, 0, 1, &trilinearSampler);
 
-	*viewProjMat = Matrix4::identity();
+	//*viewProjMat = Matrix4::identity();
 
 	RenderActiveScene();
 

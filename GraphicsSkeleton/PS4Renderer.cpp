@@ -34,12 +34,10 @@ PS4Renderer::PS4Renderer() :
 	currentScreenBuffer = 0;
 	prevScreenBuffer = 0;
 
+	currentGFXContext = nullptr;
 	InitialiseMemoryAllocators();
 	InitialiseGCMRendering();
 	InitialiseVideoSystem();
-
-	currentGFXContext = nullptr;
-
 
 	SwapBuffers();
 }
@@ -156,76 +154,6 @@ void	PS4Renderer::InitialiseVideoSystem() {
 	sceVideoOutRegisterBuffers(videoHandle, 0, bufferAddresses, numBuffers, &attribute);
 }
 
-PS4ScreenBuffer*	PS4Renderer::GenerateScreenBuffer(uint width, uint height, bool colour, bool depth, bool stencil) {
-
-	PS4ScreenBuffer* buffer = new PS4ScreenBuffer();
-
-	if (colour) {
-		Gnm::RenderTargetSpec spec;
-		spec.init();
-		spec.m_width = width;
-		spec.m_height = height;
-		spec.m_numSamples = Gnm::kNumSamples1;
-		spec.m_numFragments = Gnm::kNumFragments1;
-		spec.m_colorFormat = Gnm::kDataFormatB8G8R8A8UnormSrgb;
-
-		GpuAddress::computeSurfaceTileMode(Gnm::GpuMode::kGpuModeBase, &spec.m_colorTileModeHint, GpuAddress::kSurfaceTypeColorTargetDisplayable, spec.m_colorFormat, 1);
-
-		int32_t success = buffer->colourTarget.init(&spec);
-
-		if (success != SCE_GNM_OK) {
-			bool a = true;
-		}
-
-		const Gnm::SizeAlign colourAlign = buffer->colourTarget.getColorSizeAlign();
-
-		void *colourMemory = stackAllocators[GARLIC].allocate(colourAlign);
-
-		Gnm::registerResource(nullptr, ownerHandle, colourMemory, colourAlign.m_size,
-			"Colour", Gnm::kResourceTypeDepthRenderTargetBaseAddress, 0);
-
-		buffer->colourTarget.setAddresses(colourMemory, NULL, NULL);
-	}
-
-	if (depth) {
-		Gnm::DepthRenderTargetSpec spec;
-		spec.init();
-		spec.m_width = width;
-		spec.m_height = height;
-		spec.m_numFragments = Gnm::kNumFragments1;
-		spec.m_zFormat = Gnm::ZFormat::kZFormat32Float;
-		spec.m_stencilFormat = (stencil ? Gnm::kStencil8 : Gnm::kStencilInvalid);
-
-		GpuAddress::computeSurfaceTileMode(Gnm::GpuMode::kGpuModeBase, &spec.m_tileModeHint, GpuAddress::kSurfaceTypeDepthTarget, Gnm::DataFormat::build(spec.m_zFormat), 1);
-
-		void* stencilMemory = 0;
-
-		int32_t success = buffer->depthTarget.init(&spec);
-
-		if (success != SCE_GNM_OK) {
-			bool a = true;
-		}
-
-		void *depthMemory = stackAllocators[GARLIC].allocate(buffer->depthTarget.getZSizeAlign());
-
-		Gnm::registerResource(nullptr, ownerHandle, depthMemory, buffer->depthTarget.getZSizeAlign().m_size,
-			"Depth", Gnm::kResourceTypeDepthRenderTargetBaseAddress, 0);
-
-
-		if (stencil) {
-			stencilMemory = stackAllocators[GARLIC].allocate(buffer->depthTarget.getStencilSizeAlign());
-
-			Gnm::registerResource(nullptr, ownerHandle, stencilMemory, buffer->depthTarget.getStencilSizeAlign().m_size,
-				"Stencil", Gnm::kResourceTypeDepthRenderTargetBaseAddress, 0);
-		}
-
-		buffer->depthTarget.setAddresses(depthMemory, stencilMemory);
-	}
-
-	return buffer;
-
-
-}
 
 void	PS4Renderer::InitialiseMemoryAllocators() {
 	stackAllocators[GARLIC].init(SCE_KERNEL_WC_GARLIC, garlicMemoryBytes);
@@ -233,7 +161,7 @@ void	PS4Renderer::InitialiseMemoryAllocators() {
 
 	this->garlicAllocator = Gnmx::Toolkit::GetInterface(&stackAllocators[GARLIC]);
 	this->onionAllocator = Gnmx::Toolkit::GetInterface(&stackAllocators[ONION]);
-	Gnm::registerOwner(&ownerHandle, "PS4RendererBase");
+	Gnm::registerOwner(&ownerHandle, "PS4Renderer");
 }
 
 
@@ -385,6 +313,8 @@ void	PS4Renderer::PrepareToRender()
 	currentFrame->StartFrame();
 
 	currentGFXContext->waitUntilSafeForRendering(videoHandle, currentGPUBuffer);
+
+	currentPS4FrameBuffer->SetGraphicsContext(currentGFXContext);
 
 	SetRenderFrameBuffer(currentPS4FrameBuffer, true, true, true);
 

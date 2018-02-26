@@ -57,12 +57,11 @@ void MiniGraphicsPipeline::RenderScene()
 	defaultShader->SetUniform("CameraData", PS4ToNcl(Matrix4::identity()));
 
 	defaultShader->Activate();
+	defaultTexture->Bind();
 
 	for (int i = 0; i < 2; ++i)
 	{
-		auto x = defaultObject[i]->GetTransform();
 		defaultShader->SetUniform("RenderObjectData", defaultObject[i]->GetTransform());
-
 		defaultObject[i]->Draw();
 	}
 	renderer->PostRender();
