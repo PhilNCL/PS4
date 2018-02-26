@@ -1,0 +1,20 @@
+struct VS_INPUT
+{
+	float3 Position		: POSITION0;
+	float2 UV			: TEXCOORD0;
+};
+
+struct VS_OUTPUT
+{
+	float4 WorldPosition  : S_POSITION;
+	float2 UV			  : TEXCOORD0; 	
+};
+
+VS_OUTPUT main(VS_INPUT Input)
+{
+	VS_OUTPUT Output;
+	Output.UV = Input.UV;
+	Output.WorldPosition = float4(Input.Position.x,-Input.Position.y, Input.Position.z, 1.0); //Fix nclgl quad being the wrong way around!
+
+	return Output;
+}

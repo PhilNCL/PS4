@@ -82,6 +82,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MiniGraphicsPipeline.cpp" />
     <ClCompile Include="nclPS4Interface.cpp" />
     <ClCompile Include="Ps4AudioEmitter.cpp" />
     <ClCompile Include="PS4AudioSource.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="InputBase.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MiniGraphicsPipeline.h" />
     <ClInclude Include="nclPS4Interface.h" />
     <ClInclude Include="Ps4AudioEmitter.h" />
     <ClInclude Include="PS4AudioSource.h" />
@@ -148,6 +150,18 @@
       <Profile Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">sce_ps_orbis</Profile>
       <Profile Condition="'$(Configuration)|$(Platform)'=='Release|ORBIS'">sce_ps_orbis</Profile>
       <OutputFileName Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">$(OutDir)../%(FileName).sb</OutputFileName>
+    </OrbisWavePsslc>
+    <OrbisWavePsslc Include="TechFragForwardRenderPS.pssl">
+      <Profile Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">sce_ps_orbis</Profile>
+    </OrbisWavePsslc>
+    <OrbisWavePsslc Include="TechFragSuperSamplePS.pssl">
+      <Profile Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">sce_ps_orbis</Profile>
+    </OrbisWavePsslc>
+    <OrbisWavePsslc Include="TechVertexBasicPS.pssl">
+      <Profile Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">sce_vs_vs_orbis</Profile>
+    </OrbisWavePsslc>
+    <OrbisWavePsslc Include="TechVertexFullPS.pssl">
+      <Profile Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">sce_vs_vs_orbis</Profile>
     </OrbisWavePsslc>
     <OrbisWavePsslc Include="VertexShader.pssl">
       <Profile Condition="'$(Configuration)|$(Platform)'=='Debug|ORBIS'">sce_vs_vs_orbis</Profile>

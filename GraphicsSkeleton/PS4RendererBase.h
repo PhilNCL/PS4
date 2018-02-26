@@ -106,3 +106,4 @@ protected:
 	PS4Frame*				currentFrame;
 };
 
+

@@ -1,0 +1,44 @@
+ConstantBuffer uProjViewMtx
+{
+	column_major matrix projViewMatrix;
+};
+
+ConstantBuffer uModelMtx
+{
+	column_major matrix modelMatrix;
+};
+
+
+struct VS_INPUT
+{
+	float3 Position		: POSITION0;
+	float2 UV			: TEXCOORD0;
+	float3 Normal		: TEXCOORD1;
+};
+
+
+struct VS_OUTPUT
+{
+	float4 WorldPosition  : S_POSITION;
+	float2 UV			  : TEXCOORD0; 
+	float3 Normal 		  : TEXCOORD1;
+};
+
+// To implement
+float3x3 inverse(float3x3 m)
+{
+	return m;
+}
+
+
+
+VS_OUTPUT main(VS_INPUT input)
+{
+	VS_OUTPUT output;
+	
+	output.WorldPosition = mul(mul(modelMatrix, projViewMatrix), float4(input.Position.xyz, 1));
+	output.UV = input.UV;
+	output.Normal = mul(transpose(inverse(float3x3(modelMatrix))),  normalize(input.Normal));
+	
+	return output;
+}

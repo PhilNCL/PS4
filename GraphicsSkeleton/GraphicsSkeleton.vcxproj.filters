@@ -110,6 +110,9 @@
     <ClCompile Include="PS4FrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MiniGraphicsPipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -211,6 +214,9 @@
     <ClInclude Include="PS4FrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MiniGraphicsPipeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <OrbisWavePsslc Include="VertexShader.pssl">
@@ -219,6 +225,10 @@
     <OrbisWavePsslc Include="PixelShader.pssl">
       <Filter>BasicShaders</Filter>
     </OrbisWavePsslc>
+    <OrbisWavePsslc Include="TechVertexFullPS.pssl" />
+    <OrbisWavePsslc Include="TechFragForwardRenderPS.pssl" />
+    <OrbisWavePsslc Include="TechVertexBasicPS.pssl" />
+    <OrbisWavePsslc Include="TechFragSuperSamplePS.pssl" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="doge.jpg">

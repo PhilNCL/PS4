@@ -64,35 +64,6 @@ PS4RendererBase::~PS4RendererBase()
 }
 
 void	PS4RendererBase::InitialiseVideoSystem() {
-#ifdef OLD_BUFFERS
-	screenBuffers = new PS4ScreenBuffer*[_bufferCount];
-
-	for (int i = 0; i < _bufferCount; ++i) {
-		screenBuffers[i] = GenerateScreenBuffer(1920, 1080);
-	}
-
-	//Now we can open up the video port
-	videoHandle		= sceVideoOutOpen(0, SCE_VIDEO_OUT_BUS_TYPE_MAIN, 0, NULL);
-
-	SceVideoOutBufferAttribute attribute;
-	sceVideoOutSetBufferAttribute(&attribute,
-		SCE_VIDEO_OUT_PIXEL_FORMAT_B8_G8_R8_A8_SRGB,
-		SCE_VIDEO_OUT_TILING_MODE_TILE,
-		SCE_VIDEO_OUT_ASPECT_RATIO_16_9,
-		screenBuffers[0]->colourTarget.getWidth(),
-		screenBuffers[0]->colourTarget.getHeight(),
-		screenBuffers[0]->colourTarget.getPitch()
-	);
-
-	void* bufferAddresses[_bufferCount];
-
-	for (int i = 0; i < _bufferCount; ++i) {
-		bufferAddresses[i] = screenBuffers[i]->colourTarget.getBaseAddress();
-	}
-
-	sceVideoOutRegisterBuffers(videoHandle, 0, bufferAddresses, _bufferCount, &attribute);
-
-#else
 	FrameBuffers = new PS4FrameBuffer*[_bufferCount];
 
 	for (int i = 0; i < _bufferCount; ++i) {
@@ -119,7 +90,6 @@ void	PS4RendererBase::InitialiseVideoSystem() {
 	}
 
 	sceVideoOutRegisterBuffers(videoHandle, 0, bufferAddresses, _bufferCount, &attribute);
-#endif //old buffer
 }
 
 void	PS4RendererBase::InitialiseGCMRendering() {
@@ -379,7 +349,6 @@ void	PS4RendererBase::SwapScreenBuffer() {
 
 }
 
-int k; 
 void	PS4RendererBase::SwapCommandBuffer() {
 	if (currentGFXContext) {	
 		if (currentGFXContext->submit() != sce::Gnm::kSubmissionSuccess) {
@@ -392,11 +361,6 @@ void	PS4RendererBase::SwapCommandBuffer() {
 	 
 	currentFrame		= &frames[currentGPUBuffer]; 
 	currentGFXContext	= &currentFrame->GetCommandBuffer();
-
-	std::cout << k << "\n";
-	++k;
-
-
 }
  
 void	PS4RendererBase::SetRenderBuffer(PS4ScreenBuffer*buffer, bool clearColour, bool clearDepth, bool clearStencil) {

@@ -1,0 +1,104 @@
+#define SHADOWMAP_NUM  4
+
+//Per object
+ConstantBuffer RenderObjectData
+{
+	column_major matrix modelMatrix;
+};
+
+ConstantBuffer CameraData
+{
+	column_major matrix camMatrix;
+};
+
+SamplerState samp0 : register(s0);
+Texture2D uDiffuseTex : register( t0 );
+
+
+ConstantBuffer uColor
+{
+	float4 colour;
+};
+
+//Constant Per Frame
+ConstantBuffer uAmbientColor
+{
+	float3 ambientColour;
+};
+
+ConstantBuffer uCameraPos
+{
+	float3 cameraPos;
+};
+
+ConstantBuffer uLightDirection
+{
+	float3 lightDirection;
+};
+
+ConstantBuffer uSpecularFactor
+{
+	float specularFactor;
+};
+
+
+
+//Shadow (not sure if will be optimised)
+//uniform sampler2DArrayShadow uShadowTex;
+//SamplerState samp1 : register(s1);
+//Texture2D_Array uShadowTex : register( t3 );
+//
+//
+//
+//ConstantBuffer uShadowSinglePixel
+//{
+//	float2 shadowSinglePixel;
+//};
+//
+//ConstantBuffer uShadowTransform[SHADOWMAP_NUM]
+//{
+//column_major matrix shadowTransform;
+//};
+//
+//const float NORMAL_BIAS = 0.003f;
+//const float RAW_BIAS 	= 0.00025f;
+// .....................End of shadow stuff...........................
+struct VS_OUTPUT
+{
+	float4 WorldPosition  : S_POSITION;
+	float2 UV			  : TEXCOORD0; 
+	float3 Normal 		  : TEXCOORD1;
+};
+
+float4 main(VS_OUTPUT In) : S_TARGET_OUTPUT
+{
+	float3 normal 		= normalize(In.Normal);
+	float4 texColour 	= uDiffuseTex.Sample(samp0, In.UV.xy);
+	float4 fragColour 	= colour * texColour;	
+	
+	//Lighting Calculations
+	float3 viewDir 		= normalize(cameraPos - In.WorldPosition);
+	float3 halfDir 		= normalize(viewDir - lightDirection);
+	float rFactor       = max(0.0, dot(halfDir , normal ));
+	
+	float dFactor       = max(0.0, dot(-lightDirection , normal)) ;
+    float sFactor       = pow(rFactor , specularFactor );
+	   
+	   
+	//Color Computations
+	const float specIntensity = 0.4f;
+	
+	//Quick hack to approximate specular colour of an object, assuming the light colour is white
+	float3 specColour = min(colour.rgb + float3(0.5f), float3(1)); 
+	
+	//Output Final Colour
+	float3 diffuse  = colour.rgb * dFactor;
+	float3 specular = specColour * sFactor * specIntensity;
+	
+	//Combine lighting
+	float4 OutFrag;
+	OutFrag.xyz 	= diffuse + specular + colour.rgb* ambientColour;
+	OutFrag.a 	= colour.a;
+	
+	return OutFrag;
+}

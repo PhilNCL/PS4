@@ -3,7 +3,6 @@ SamplerState samp0 : register(s0);
 
 Texture2D colorMap : register( t0 );
 
-
 struct VS_OUTPUT
 {
 	float4 Position		: S_POSITION;

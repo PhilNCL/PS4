@@ -1,0 +1,52 @@
+
+SamplerState samp0 : register(s0);
+Texture2D uColorTex : register( t0 );
+
+ConstantBuffer uSinglepixel
+{
+	float2 singlePixel;
+}
+
+ConstantBuffer uGammaCorrection
+{
+	float gammaCorrection;
+}
+
+ConstantBuffer uNumSuperSamples
+{
+	float numSuperSamples;
+}
+
+struct VS_OUTPUT
+{
+	float4 WorldPosition  : S_POSITION;
+	float2 UV			  : TEXCOORD0; 	
+};
+
+float4 main(VS_OUTPUT In) : S_TARGET_OUTPUT
+{
+	//We need to inverse the gamma function to go back to a non-linear color ramp
+	float invGammaCorrection = 1.0 / gammaCorrection;
+
+	//Sample every other pixel and interpolate
+	float3 colour = float3(0.0f);
+	float samplesTaken = 0.0f;
+
+	for (float x = 0.0f; x < numSuperSamples; x += 2.0f)
+	{
+		for (float y = 0.0f; y < numSuperSamples; y += 2.0f)
+		{
+			colour += uColorTex.Sample(samp0, In.UV + singlePixel * float2(x,y)).xyz;
+			samplesTaken += 1.0f;
+		}
+	}
+	colour /= samplesTaken;
+
+	// Inverse Gamma Ramp
+	colour = pow(colour, float3(invGammaCorrection));
+	float4 OutFrag = float4(colour, 1.0f);
+	return OutFrag;
+}
+
+
+
